@@ -20,7 +20,7 @@ def fetch_and_save_historical_data(token, ba):
         None
     """
 
-    data_path = path.join("data", ba)
+    data_path = path.join("data", "regions", ba)
     if not os.path.exists(data_path):
         os.makedirs(data_path)
 

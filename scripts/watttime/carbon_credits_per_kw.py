@@ -74,7 +74,7 @@ def load_json_files(region):
     Returns:
         dict: A nested dictionary containing the MOER values organized by year and hour.
     """
-    folder_path = os.path.join("data", ba)
+    folder_path = os.path.join("data", "regions", ba)
     data = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
     prefix = f"{ba}_2023"
     for filename in os.listdir(folder_path):
