@@ -22,7 +22,8 @@ def fetch_nasa_data(latitude, longitude):
         "latitude": latitude,
         "start": META_params["start"],
         "end": META_params["end"],
-        "format": "json"
+        "format": "json",
+        "time-standard": "utc"
     }
     response = requests.get(url, params=params)
     
@@ -75,8 +76,8 @@ def fetch_and_save(latitude, longitude):
 
 # Main function to spawn threads and save data
 def main():
-    latitudes = [round(lat, 1) for lat in frange(24, 50, 0.2)]
-    longitudes = [round(lon, 1) for lon in frange(-125, -66, 0.2)]
+    latitudes = [round(lat, 1) for lat in frange(24, 50, 0.4)]
+    longitudes = [round(lon, 1) for lon in frange(-125, -66, 0.4)]
     
     with ThreadPoolExecutor(max_workers=9) as executor:  # Adjust the number of workers as needed
         for latitude in latitudes:

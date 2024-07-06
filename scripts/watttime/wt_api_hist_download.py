@@ -5,6 +5,7 @@ import json
 from os import path
 import os
 import calendar
+import time
 from wt_api_historical_data import load_credentials, get_token, get_historical_data
 
 def fetch_and_save_historical_data(token, ba):
@@ -34,6 +35,7 @@ def fetch_and_save_historical_data(token, ba):
         if path.exists(file_path):
             pass
         else:
+            time.sleep(2)
             print(f"generating {file_path}")
             dat = get_historical_data(token, ba, start, end)
             if dat is not None:
