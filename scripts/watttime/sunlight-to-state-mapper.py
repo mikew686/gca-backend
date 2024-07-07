@@ -32,11 +32,15 @@ def assign_states(lat_longs):
         for feature in geo_data['features']:
             polygon = shape(feature['geometry'])
             state = feature['properties']['name']
+            state.replace(" ", "_")
             rdat = []
             for lat, lon in lat_longs:
                 point = Point(lon, lat)
                 if polygon.contains(point):
                     rdat.append((lat, lon))
+                    fn = os.path.join(NASA_ROOT, f"{lat:.1f}", f"{lon:.1f}.state")
+                    with open(fn, "w") as f:
+                        f.write(state)
             mfn = os.path.join(STATES_ROOT, state+".json")
             with open(mfn, "w") as f:
                 json.dump({"data":rdat, "meta":{"description":"map of solar data coordinates to state"}}, f, indent=2)
@@ -44,6 +48,6 @@ def assign_states(lat_longs):
 
 if __name__ == "__main__":
     x = traverse_lat_long_directory(NASA_ROOT)
-    # requires a state geojson file
-    # example: https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json
+    # requires a states geojson file, public file is:
+    # https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json
     assign_states(x)
