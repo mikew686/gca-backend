@@ -76,8 +76,8 @@ def fetch_and_save(latitude, longitude):
 
 # Main function to spawn threads and save data
 def main():
-    latitudes = [round(lat, 1) for lat in frange(24, 50, 0.4)]
-    longitudes = [round(lon, 1) for lon in frange(-125, -66, 0.4)]
+    latitudes = [round(lat, 1) for lat in frange(24.0, 50.0, 0.4)]
+    longitudes = [round(lon, 1) for lon in frange(-125.0, -66.0, 0.4)]
     
     with ThreadPoolExecutor(max_workers=9) as executor:  # Adjust the number of workers as needed
         for latitude in latitudes:
