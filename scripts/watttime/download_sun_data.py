@@ -45,7 +45,7 @@ def save_to_disk(data, latitude, longitude):
         os.makedirs(folder_path)
     file_path = os.path.join(folder_path, f"{longitude}.json")
     with open(file_path, 'w') as f:
-        json.dump(data, f)
+        json.dump(data, f, indent=1)
 
 # Worker function to be run by each thread with retry mechanism
 def fetch_and_save(latitude, longitude):

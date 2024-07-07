@@ -64,7 +64,7 @@ def get_balancing_authority(token, latitude, longitude):
         print(f"Unexpected error: {response.content}")
         sys.exit("An unexpected error occurred while fetching the balancing authority.")
 
-def load_json_files(region):
+def load_json_files(ba):
     """
     Load json files in a folder with a specific prefix and return the MOER values organized by year and hour.
     
