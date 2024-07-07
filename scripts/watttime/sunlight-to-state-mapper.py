@@ -9,9 +9,8 @@ import geojson
 from shapely.geometry import shape, Point
 
 NASA_ROOT = "data/nasa"
-REGIONS_ROOT = "data/regions"
-REGION_GEOJSON = "data/ba_maps.json"
-SOLAR_MAPFILE = "solarmap.json"
+STATES_ROOT = "data/states"
+STATES_GEOJSON = "data/states/us-states.json"
 
 def traverse_lat_long_directory(base_dir):
     lat_lon_list = []
@@ -25,26 +24,26 @@ def traverse_lat_long_directory(base_dir):
                 lat_lon_list.append((float(lat), float(lon)))
     return lat_lon_list
 
-def assign_regions(lat_longs):
-    if not os.path.exists(REGION_GEOJSON):
+def assign_states(lat_longs):
+    if not os.path.exists(STATES_GEOJSON):
         return
-    with open(REGION_GEOJSON) as f:
+    with open(STATES_GEOJSON) as f:
         geo_data = geojson.load(f)
         for feature in geo_data['features']:
             polygon = shape(feature['geometry'])
-            region = feature['properties']['region']
-            if not os.path.exists(os.path.join(REGIONS_ROOT, region)):
-                continue
+            state = feature['properties']['name']
             rdat = []
             for lat, lon in lat_longs:
                 point = Point(lon, lat)
                 if polygon.contains(point):
                     rdat.append((lat, lon))
-            mfn = os.path.join(REGIONS_ROOT, region, SOLAR_MAPFILE)
+            mfn = os.path.join(STATES_ROOT, state+".json")
             with open(mfn, "w") as f:
-                json.dump({"data":rdat, "meta":{"description":"map of solar data coordinates to region"}}, f, indent=2)
+                json.dump({"data":rdat, "meta":{"description":"map of solar data coordinates to state"}}, f, indent=2)
             print(f"created {mfn}")
 
 if __name__ == "__main__":
     x = traverse_lat_long_directory(NASA_ROOT)
-    assign_regions(x)
+    # requires a state geojson file
+    # example: https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json
+    assign_states(x)
